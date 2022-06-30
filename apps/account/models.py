@@ -1,8 +1,6 @@
 from django.db import models
-
-from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
-from django.conf import settings
+
 
 
 
@@ -51,7 +49,13 @@ class CustomUser(AbstractBaseUser):
     def create_activation_code(self):
         from django.utils.crypto import get_random_string
         code = get_random_string(length=10)
-        if CustomUser.objects.filter(activation_code=code).exists():
-            self.create_activation_code()
-        self.activation_code = code
+        self.activation_code=code
+        self.save()
+        
+        
+    def activate_with_code(self, activation_code):
+        if self.activation_code != activation_code:
+            raise Exception('Invalid activation code')
+        self.is_active= True
+        self.activation_code = ""
         self.save()

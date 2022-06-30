@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     'apps.account',
-    'apps.movies',
+    'apps.movie',
+    'apps.genre',
 
 ]
 
